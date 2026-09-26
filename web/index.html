@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Grid Restoration Engine</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <div class="logo">⚡</div>
+    <div>
+      <h1>Smart Grid Restoration Engine</h1>
+      <p>Fault-tolerant power distribution · CSE 4403 Algorithms <span class="local-tag">LOCAL C++17 SIMULATION</span></p>
+    </div>
+  </div>
+  <div class="controls">
+    <label class="field">Scenario
+      <select id="preset"></select>
+    </label>
+    <label class="field hour">Hour <span id="hourLabel">19:00</span>
+      <input id="hour" type="range" min="0" max="23" step="1" value="19">
+    </label>
+    <button id="run" class="primary">▶ Run engine</button>
+  </div>
+</header>
+
+<div class="faultbar">
+  <span class="hint">Click any line on the map to break it.</span>
+  <span id="faultChips"></span>
+  <span id="status" class="status" role="status" aria-live="polite"></span>
+</div>
+
+<section id="demoTour" class="demo-tour" aria-label="Guided demonstration" hidden>
+  <div><span id="tourProgress" class="eyebrow"></span><h2 id="tourTitle"></h2><p id="tourText"></p></div>
+  <div class="tour-actions"><button id="tourPrevious" class="ghost">Previous</button><button id="tourNext" class="primary">Next step</button><button id="tourClose" class="ghost">End demo</button></div>
+</section>
+
+<section class="overview" aria-label="Restoration overview">
+  <div class="overview-copy">
+    <h2 id="eventTitle">Preparing the city grid</h2>
+    <p id="eventSummary">Choose a scenario to follow the algorithms from fault to restoration.</p>
+  </div>
+  <div id="serviceBars" class="service-bars" aria-label="Demand served by priority"></div>
+  <div class="overview-actions">
+    <button id="tour" class="ghost" disabled>Guided demo</button>
+    <button id="compare" class="ghost" disabled>Compare policies</button>
+  </div>
+</section>
+<section id="comparison" class="comparison" aria-label="Policy comparison" hidden></section>
+
+<main>
+  <section class="mapwrap">
+    <svg id="map" viewBox="0 0 1000 640" preserveAspectRatio="xMidYMid meet" role="group" aria-label="City grid map. Tab to a line and press Enter or Space to toggle a fault."></svg>
+    <div class="legend">
+      <span><i class="sw line-active"></i>Closed line</span>
+      <span><i class="sw line-open"></i>Open tie</span>
+      <span><i class="sw line-fault"></i>Faulted</span>
+      <span><i class="sw line-new"></i>Newly closed</span>
+      <span><i class="dot p1"></i>Critical</span>
+      <span><i class="dot p2"></i>Essential</span>
+      <span><i class="dot p3"></i>Residential</span>
+      <span><i class="dot p4"></i>Commercial</span>
+      <span class="loadkey">Loading <i class="grad"></i> 0–100%</span>
+    </div>
+  </section>
+
+  <aside class="panel">
+    <nav class="stages" id="stages">
+      <button data-stage="1"><b>1</b> Detect<small>BFS</small></button>
+      <button data-stage="2"><b>2</b> Rebuild<small>Kruskal MST</small></button>
+      <button data-stage="3"><b>3</b> Verify<small>Max-flow</small></button>
+      <button data-stage="4"><b>4</b> Route<small>Dijkstra</small></button>
+      <button data-stage="5"><b>5</b> Batteries<small>DP</small></button>
+    </nav>
+    <div id="stageBody" class="stagebody"></div>
+  </aside>
+</main>
+
+<footer class="kpis" id="kpis"></footer>
+<p class="model-note">Synthetic 29-node city · Capacity checks apply to the final transport-flow model. Switching times assume 30 seconds per operation.</p>
+<div id="tip" class="tip" hidden></div>
+<script src="app.js"></script>
+</body>
+</html>

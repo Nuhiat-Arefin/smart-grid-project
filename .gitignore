@@ -1,0 +1,13 @@
+/build/
+/submission/
+__pycache__/
+*.py[cod]
+.DS_Store
+.package_submission-*/
+/report/
+*.pdf
+*.zip
+/VIDEO_TRANSCRIPT.md
+/WORK_LOG.md
+/package_submission.py
+/results/
